@@ -9,7 +9,7 @@ export const INITIAL_USER = {
   email: "",
   height: "",
   size: "",
-  profileImage: "",
+  profilePicture: "",
 };
 
 const INITIAL_STATE = {
@@ -31,6 +31,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const checkAuthUser = async () => {
     setIsLoading(true);
+
     try {
       // Retrieve the token from Cookie
       const userToken = document.cookie
@@ -40,6 +41,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (userToken) {
         const userDetails = (await jwtHandler.verifyToken(userToken)) as IUser;
+
         // Assuming userDetails is structured correctly and contains necessary info
         if (userDetails) {
           setUser({
@@ -48,8 +50,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             email: userDetails.email,
             height: userDetails.height,
             size: userDetails.size,
-            profileImage: userDetails.profileImage,
+            profilePicture: userDetails.profilePicture,
           });
+
           setIsAuthenticated(true);
           return true;
         }

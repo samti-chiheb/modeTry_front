@@ -46,7 +46,7 @@ export type IUser = {
   email: string;
   height: string;
   size: string;
-  profileImage: string;
+  profilePicture: string;
 };
 
 export type INewUser = {
