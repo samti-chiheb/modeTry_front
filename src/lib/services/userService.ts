@@ -53,7 +53,21 @@ export const signInAccount = async (credentials: IUserLogin) => {
     return response.data;
   } catch (error) {
     console.error("An error occurred during login:", error);
-    // Use the message from the API response if available, else a generic error message
     return error || "An error occurred during login.";
+  }
+};
+
+export const signOutAccount = () => {
+  try {
+    document.cookie =
+      "userToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+
+    return {
+      status: "success",
+      message: "You have been signed out successfully.",
+    };
+  } catch (error) {
+    console.error("An error occurred during sign-out:", error);
+    return { status: "fail", message: "An error occurred during sign-out." };
   }
 };
