@@ -19,6 +19,7 @@ const INITIAL_STATE = {
   setUser: () => {},
   setIsAuthenticated: () => {},
   checkAuthUser: async () => false as boolean,
+  authToken: "",
 };
 
 const AuthContext = createContext<IContextType>(INITIAL_STATE);
@@ -27,6 +28,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<IUser>(INITIAL_USER);
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authToken, setAuthToken] = useState<string>("");
   const navigate = useNavigate();
 
   const checkAuthUser = async () => {
@@ -41,6 +43,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (userToken) {
         const userDetails = (await jwtHandler.verifyToken(userToken)) as IUser;
+        setAuthToken(userToken);
 
         // Assuming userDetails is structured correctly and contains necessary info
         if (userDetails) {
@@ -81,6 +84,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     isAuthenticated,
     setIsAuthenticated,
     checkAuthUser,
+    authToken,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

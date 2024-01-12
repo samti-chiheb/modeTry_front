@@ -40,8 +40,6 @@ const SigninForm = () => {
 
   // 3. Handle submit
   const handleSignin = async (values: z.infer<typeof SigninValidation>) => {
-    console.log(values);
-
     try {
       //create user session
       const session = await signInAccount({
@@ -58,9 +56,11 @@ const SigninForm = () => {
       const isLoggedIn = await checkAuthUser();
 
       if (isLoggedIn) {
+
         form.reset();
         navigate("/");
       } else {
+              
         toast({ title: "Sign up failed" });
       }
     } catch (e) {

@@ -9,27 +9,25 @@ export const createUserAccount = async (userData: INewUser) => {
     // Generate a token with the user's data
     const token = await jwtHandler.generateToken(userData);
 
-    // Set up headers
+    // Set up headers with the token
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
       },
     };
 
     // Make the POST request to the registration endpoint
-    const response = await axios.post(
-      `${baseURL}/registration`,
-      userData,
-      config
-    );
+    const response = await axios.post(`${baseURL}/registration`, {}, config);
 
-    // Use the message directly from the API response
     return response.data.message;
   } catch (error) {
     console.error("An error occurred during registration:", error);
-    // Use the message from the API response if available, else a generic error message
-    return error || "An error occurred during registration.";
+
+    if (error.response) {
+      return { error: error.response.data.error };
+    }
+    return { error: error || "An error occurred during registration." };
   }
 };
 

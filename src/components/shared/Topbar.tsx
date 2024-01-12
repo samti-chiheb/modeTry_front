@@ -1,18 +1,20 @@
 import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from "../ui/button";
-import { useUserContext } from "@/context/AuthContext";
+import { INITIAL_USER, useUserContext } from "@/context/AuthContext";
 import { signOutAccount } from "@/lib/services/userService";
 
 const Topbar = () => {
   const navigate = useNavigate();
-  const { user } = useUserContext();
+  const { user, setIsAuthenticated, setUser } = useUserContext();
 
   const signOut = () => {
     const response = signOutAccount();
 
     if (response.status === "success") {
-      navigate(0);
+      setIsAuthenticated(false);
+      setUser(INITIAL_USER);
+      navigate("/sign-in");
     } else {
       // toast error
       console.log("====================================");
@@ -41,9 +43,11 @@ const Topbar = () => {
           >
             <img src="/assets/icons/logout.svg" alt="logout" />
           </Button>
-          <Link to={`/profile/${user.id}`} className="flex-center gap-3">
+          <Link to={`/profile/${user.username}`} className="flex-center gap-3">
             <img
-              src={user.profilePicture}
+              src={
+                user.profilePicture || "/assets/icons/profile-placeholder.svg"
+              }
               alt="profile"
               className="h-8 w-8 rounded-full"
             />

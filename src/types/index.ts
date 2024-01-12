@@ -5,6 +5,7 @@ export type IContextType = {
   setUser: React.Dispatch<React.SetStateAction<IUser>>;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   checkAuthUser: () => Promise<boolean>;
+  authToken: string;
 };
 
 export type INavLink = {
@@ -20,24 +21,6 @@ export type IUpdateUser = {
   imageId: string;
   imageUrl: URL | string;
   file: File[];
-};
-
-export type INewPost = {
-  userId: string;
-  caption: string;
-  file: File[];
-  location?: string;
-  tags?: string;
-};
-
-export type IUpdatePost = {
-  postId: string;
-  caption: string;
-  imageId: string;
-  imageUrl: URL;
-  file: File[];
-  location?: string;
-  tags?: string;
 };
 
 export type IUser = {
@@ -60,4 +43,32 @@ export type INewUser = {
 export type IUserLogin = {
   email: string;
   password: string;
+};
+
+export type INewPost = {
+  description: string;
+  tags: string;
+  visibility: string;
+};
+
+export type ICreatePost = {
+  imageFile: File;
+  postDetails: INewPost;
+  jwtToken: string;
+  newPhoto: string;
+};
+
+export type IUpdatePost = {
+  description: string;
+  tags: string;
+  visibility: string;
+};
+
+export type IPost = {
+  id: string;
+  imageUrl: string;
+  user_id: string;
+  description: string;
+  tags: string;
+  visibility: string;
 };
