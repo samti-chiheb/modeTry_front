@@ -17,7 +17,7 @@ class JWTHandler {
     this.expirationTime = expirationTime;
   }
 
-  async generateToken(payload: object) {
+  async generateToken(payload: any) {
     const token = await new jose.SignJWT(payload)
       .setProtectedHeader({ alg: this.algorithm })
       .setIssuedAt()

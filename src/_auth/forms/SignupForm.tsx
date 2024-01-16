@@ -28,7 +28,7 @@ import Logo from "@/components/shared/Logo";
 const SignupForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+  const { checkAuthUser} = useUserContext();
 
   // 1. define the form
   const form = useForm<z.infer<typeof SignupValidation>>({
@@ -46,7 +46,7 @@ const SignupForm = () => {
   const { mutateAsync: createUserAccount, isPending: isCreatingAccount } =
     useCreateUserAccount();
 
-  const { mutateAsync: signInAccount, isPending: isSigningIn } =
+  const { mutateAsync: signInAccount} =
     useSignInAccount();
 
   // 3. Handle submit

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import jwtHandler from "./JWTHandlerInstance";
 import { INewUser, IUserLogin } from "@/types";
 
@@ -24,8 +24,8 @@ export const createUserAccount = async (userData: INewUser) => {
   } catch (error) {
     console.error("An error occurred during registration:", error);
 
-    if (error.response) {
-      return { error: error.response.data.error };
+    if ((error as AxiosError).response) {
+      return { error: (error as any).response.data.error };
     }
     return { error: error || "An error occurred during registration." };
   }
