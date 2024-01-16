@@ -1,4 +1,4 @@
-import { ICreatePost, IUpdatePost } from "@/types";
+import { ICreatePost, IRawPost, IUpdatePost } from "@/types";
 import axios from "axios";
 import { authConfig } from "./authConfig";
 import { uploadPhoto } from "./photoService";
@@ -6,12 +6,15 @@ const baseURL = import.meta.env.VITE_API_URL;
 
 export const createPost = async (params: ICreatePost) => {
   try {
-    let photoId = params.newPhoto;
+    let photoId = params.photoId;
 
-    if (params.newPhoto === "0") {
+    if (params.photoId === "0") {
       // D'abord, télécharger la photo
-      const photoResponse = await uploadPhoto(params.imageFile, params.jwtToken);
-      photoId = photoResponse.id;
+      const photoResponse = await uploadPhoto(
+        params.imageFile,
+        params.authToken
+      );
+      photoId = photoResponse.photoId;
 
       if (!photoResponse || !photoResponse.photoId) {
         throw new Error("Erreur lors du téléchargement de la photo.");
@@ -19,18 +22,23 @@ export const createPost = async (params: ICreatePost) => {
     }
 
     // convert tags in array
-    const tags = params.postDetails.tags?.replace(/ /g, "").split(",") || [];
+    const tags = JSON.stringify(
+      params.postDetails.tags
+        ?.split(",")
+        .map((tag) => tag.trim())
+        .filter((tag) => tag)
+    );
 
-    // Ensuite, utiliser l'ID de la photo dans la création du post
     const completePostDetails = {
       ...params.postDetails,
       tags,
       photoId: photoId,
     };
 
-    const config = authConfig(params.jwtToken);
+    const config = authConfig(params.authToken);
+
     const postResponse = await axios.post(
-      `${process.env.REACT_APP_API_URL}/post/create`,
+      `${baseURL}/post/create`,
       completePostDetails,
       config
     );
@@ -50,7 +58,13 @@ export const getPosts = async (jwtToken: string) => {
     const config = authConfig(jwtToken);
 
     const response = await axios.get(`${baseURL}/posts`, config);
-    return response.data;
+
+    const postsWithParsedTags = response.data.posts.map((post: IRawPost) => ({
+      ...post,
+      tags: post.tags ? JSON.parse(post.tags) : [],
+    }));
+    
+    return postsWithParsedTags;
   } catch (error) {
     console.error(
       "Une erreur s'est produite lors de la récupération des posts :",

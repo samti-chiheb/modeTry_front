@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { INITIAL_USER, useUserContext } from "@/context/AuthContext";
 import { signOutAccount } from "@/lib/services/userService";
+import Logo from "./Logo";
 
 const Topbar = () => {
   const navigate = useNavigate();
@@ -27,12 +28,7 @@ const Topbar = () => {
     <section className="topbar">
       <div className="flex-between py-4 px-5">
         <Link to="/" className="flex gap-3 items-center">
-          <img
-            src="/assets/images/logo.svg"
-            alt="logo"
-            width={130}
-            height={325}
-          />
+          <Logo />
         </Link>
 
         <div className="flex gap-4">

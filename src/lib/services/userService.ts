@@ -48,6 +48,8 @@ export const signInAccount = async (credentials: IUserLogin) => {
       3600 * 60
     }`;
 
+    if (response.data.user)
+    
     return response.data;
   } catch (error) {
     console.error("An error occurred during login:", error);

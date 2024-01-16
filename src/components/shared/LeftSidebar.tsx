@@ -6,6 +6,7 @@ import Loader from "./Loader";
 import { Button } from "@/components/ui/button";
 import { useUserContext, INITIAL_USER } from "@/context/AuthContext";
 import { signOutAccount } from "@/lib/services/userService";
+import Logo from "./Logo";
 
 const LeftSidebar = () => {
   const navigate = useNavigate();
@@ -25,13 +26,8 @@ const LeftSidebar = () => {
   return (
     <nav className="leftsidebar">
       <div className="flex flex-col gap-11">
-        <Link to="/" className="flex gap-3 items-center">
-          <img
-            src="/assets/images/logo.svg"
-            alt="logo"
-            width={170}
-            height={36}
-          />
+        <Link to="/" >
+          <Logo />
         </Link>
 
         {isLoading || !user.email ? (

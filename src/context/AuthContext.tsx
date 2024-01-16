@@ -44,7 +44,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (userToken) {
         const userDetails = (await jwtHandler.verifyToken(userToken)) as IUser;
         setAuthToken(userToken);
-
+        console.log("====================================");
+        console.log(userDetails);
+        console.log("====================================");
         // Assuming userDetails is structured correctly and contains necessary info
         if (userDetails) {
           setUser({
@@ -68,6 +70,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setIsLoading(false);
     }
   };
+
+  // useEffect(() => {
+  //   console.log("====================================");
+  //   console.log(user);
+  //   console.log("====================================");
+  // }, [user]);
 
   useEffect(() => {
     if (localStorage.getItem("cookiesFallback") === "[]") {

@@ -54,8 +54,8 @@ export type INewPost = {
 export type ICreatePost = {
   imageFile: File;
   postDetails: INewPost;
-  jwtToken: string;
-  newPhoto: string;
+  authToken: string;
+  photoId: string;
 };
 
 export type IUpdatePost = {
@@ -64,11 +64,31 @@ export type IUpdatePost = {
   visibility: string;
 };
 
-export type IPost = {
-  id: string;
-  imageUrl: string;
-  user_id: string;
+
+
+export type IRawPost = {
+  id: number;
   description: string;
   tags: string;
+  creator: string;
+  creatorPhoto: string;
+  photoPath: string;
   visibility: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
+
+
+export type IPost = {
+  id: number;
+  description: string;
+  tags: string[]; 
+  creator: string;
+  creatorId: string;
+  creatorPhoto: string;
+  photoPath: string;
+  visibility: string; 
+  createdAt: string; 
+  updatedAt: string; 
+};
+

@@ -30,7 +30,7 @@ type PostFormProps = {
 const PostForm = ({ post, action }: PostFormProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user, authToken } = useUserContext();
+  const { authToken } = useUserContext();
   const form = useForm<z.infer<typeof PostValidation>>({
     resolver: zodResolver(PostValidation),
     defaultValues: {
@@ -74,8 +74,8 @@ const PostForm = ({ post, action }: PostFormProps) => {
         tags: value.tags,
         visibility: "public",
       },
-      jwtToken: authToken,
-      newPhoto: "1",
+      authToken: authToken,
+      photoId: "0",
     });
 
     if (!newPost) {
@@ -83,6 +83,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
         title: `${action} post failed. Please try again.`,
       });
     }
+
     navigate("/");
   };
 
